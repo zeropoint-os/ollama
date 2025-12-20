@@ -1,6 +1,6 @@
 # Ollama Terraform Module
 
-This module defines the Ollama app for zeropoint-agent using Terraform and the Docker provider.
+This module defines the Ollama app for zeropoint os using Terraform and the Docker provider.
 
 ## Resources Created
 
