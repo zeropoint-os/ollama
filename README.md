@@ -1,4 +1,4 @@
-# Ollama Terraform Module
+# Ollama zeropoint app
 
 This module defines the Ollama app for zeropoint os using Terraform and the Docker provider.
 
