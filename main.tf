@@ -24,6 +24,12 @@ variable "arch" {
   description = "Target architecture - amd64, arm64, etc. (injected by zeropoint)"
 }
 
+variable "gpu_vendor" {
+  type        = string
+  default     = ""
+  description = "GPU vendor - nvidia, amd, intel, or empty for no GPU (injected by zeropoint)"
+}
+
 # Build Ollama image from local Dockerfile
 resource "docker_image" "ollama" {
   name = "${var.app_id}:latest"
@@ -47,6 +53,10 @@ resource "docker_container" "ollama_main" {
 
   # Restart policy
   restart = "unless-stopped"
+
+  # GPU access (conditional based on vendor)
+  runtime = var.gpu_vendor == "nvidia" ? "nvidia" : null
+  gpus    = var.gpu_vendor != "" ? "all" : null
 
   # Environment variables
   env = [
