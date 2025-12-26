@@ -72,3 +72,17 @@ output "main" {
   value       = docker_container.ollama_main
   description = "Main Ollama container"
 }
+
+# Service ports for external access (defined but not bound to host)
+output "main_ports" {
+  value = {
+    api = {
+      port        = 11434                   # Ollama API port
+      protocol    = "http"                  # The protocol used
+      transport   = "tcp"                   # Transport layer
+      description = "Ollama API endpoint"   # Description of the port
+      default     = true                    # Default port for the service
+    }
+  }
+  description = "Service ports for external access"
+}
