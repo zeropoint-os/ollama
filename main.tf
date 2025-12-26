@@ -30,6 +30,11 @@ variable "gpu_vendor" {
   description = "GPU vendor - nvidia, amd, intel, or empty for no GPU (injected by zeropoint)"
 }
 
+variable "app_storage" {
+  type        = string
+  description = "Host path for persistent storage (injected by zeropoint)"
+}
+
 # Build Ollama image from local Dockerfile
 resource "docker_image" "ollama" {
   name = "${var.app_id}:latest"
@@ -63,6 +68,12 @@ resource "docker_container" "ollama_main" {
     "OLLAMA_HOST=0.0.0.0",
   ]
 
+  # Persistent storage
+  volumes {
+    host_path      = "${var.app_storage}/.ollama"
+    container_path = "/root/.ollama"
+  }
+
   # Ports exposed internally (no host binding)
   # Port 11434 is accessible via service discovery (DNS)
 }
@@ -85,16 +96,4 @@ output "main_ports" {
     }
   }
   description = "Service ports for external access"
-}
-
-# Persistent storage mounts
-output "main_mounts" {
-  value = {
-    models = {
-      container_path = "/root/.ollama"
-      description    = "Ollama models and configuration storage"
-      read_only      = false
-    }
-  }
-  description = "Persistent storage mount points"
 }
