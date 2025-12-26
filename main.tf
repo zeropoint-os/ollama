@@ -86,3 +86,15 @@ output "main_ports" {
   }
   description = "Service ports for external access"
 }
+
+# Persistent storage mounts
+output "main_mounts" {
+  value = {
+    models = {
+      container_path = "/root/.ollama"
+      description    = "Ollama models and configuration storage"
+      read_only      = false
+    }
+  }
+  description = "Persistent storage mount points"
+}
