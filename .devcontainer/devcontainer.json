@@ -5,6 +5,7 @@
 		"context": ".."
 	},
 	"overrideCommand": true,
+	"postAttachCommand": "docker network create test-network 2>/dev/null || true",
 	"customizations": {
 		"vscode": {
 			"settings": {

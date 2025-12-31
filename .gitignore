@@ -4,6 +4,7 @@
 *.tfplan
 tfplan
 *.tfvars
+!terraform.tfvars
 .terraform/
 .terraform.lock.hcl
 crash.log
@@ -25,3 +26,5 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+data/**
