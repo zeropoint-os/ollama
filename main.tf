@@ -97,3 +97,9 @@ output "main_ports" {
   }
   description = "Service ports for external access"
 }
+
+# Ollama API URL for easy consumption by other apps
+output "ollama_api_url" {
+  value       = "http://${docker_container.ollama_main.name}:11434"
+  description = "Ollama API URL accessible via Docker network"
+}
