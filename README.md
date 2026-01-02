@@ -42,21 +42,21 @@ terraform init
 # Plan (preview changes)
 terraform plan \
   -var app_id=ollama \
-  -var network_name=zeropoint-app-ollama \
+  -var network_name=zpm-nw-ollama \
   -var arch=amd64 \
   -var gpu_vendor=nvidia
 
 # Apply (create resources)
 terraform apply \
   -var app_id=ollama \
-  -var network_name=zeropoint-app-ollama \
+  -var network_name=zpm-nw-ollama \
   -var arch=amd64 \
   -var gpu_vendor=nvidia
 
 # Destroy (clean up)
 terraform destroy \
   -var app_id=ollama \
-  -var network_name=zeropoint-app-ollama
+  -var network_name=zpm-nw-ollama
 ```
 
 ## Inputs

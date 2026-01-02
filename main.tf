@@ -7,7 +7,7 @@ terraform {
   }
 }
 
-variable "zp_app_id" {
+variable "zp_module_id" {
   type        = string
   default     = "ollama"
   description = "Unique identifier for this app instance (user-defined, freeform)"
@@ -30,14 +30,14 @@ variable "zp_gpu_vendor" {
   description = "GPU vendor - nvidia, amd, intel, or empty for no GPU (injected by zeropoint)"
 }
 
-variable "zp_app_storage" {
+variable "zp_module_storage" {
   type        = string
   description = "Host path for persistent storage (injected by zeropoint)"
 }
 
 # Build Ollama image from local Dockerfile
 resource "docker_image" "ollama" {
-  name = "${var.zp_app_id}:latest"
+  name = "${var.zp_module_id}:latest"
   build {
     context    = path.module
     dockerfile = "Dockerfile"
@@ -48,7 +48,7 @@ resource "docker_image" "ollama" {
 
 # Main Ollama container (no host port binding)
 resource "docker_container" "ollama_main" {
-  name  = "${var.zp_app_id}-main"
+  name  = "${var.zp_module_id}-main"
   image = docker_image.ollama.image_id
 
   # Network configuration (provided by zeropoint)
@@ -70,7 +70,7 @@ resource "docker_container" "ollama_main" {
 
   # Persistent storage
   volumes {
-    host_path      = "${var.zp_app_storage}/.ollama"
+    host_path      = "${var.zp_module_storage}/.ollama"
     container_path = "/root/.ollama"
   }
 
