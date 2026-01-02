@@ -10,12 +10,12 @@ terraform {
 variable "zp_module_id" {
   type        = string
   default     = "ollama"
-  description = "Unique identifier for this app instance (user-defined, freeform)"
+  description = "Unique identifier for this module instance (user-defined, freeform)"
 }
 
  variable "zp_network_name" {
   type        = string
-  description = "Pre-created Docker network name for this app (managed by zeropoint)"
+  description = "Pre-created Docker network name for this module (managed by zeropoint)"
 }
 
 variable "zp_arch" {
@@ -98,7 +98,7 @@ output "main_ports" {
   description = "Service ports for external access"
 }
 
-# Ollama API URL for easy consumption by other apps
+# Ollama API URL for easy consumption by other modules
 output "ollama_api_url" {
   value       = "http://${docker_container.ollama_main.name}:11434"
   description = "Ollama API URL accessible via Docker network"
