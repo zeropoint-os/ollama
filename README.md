@@ -21,11 +21,11 @@ This module defines the Ollama app for zeropoint os using Terraform and the Dock
 ### Via zeropoint API
 
 ```bash
-curl -X POST http://localhost:8080/apps/install \
+curl -X POST http://<zeropoint-node-name>:2370/modules/install \
   -H "Content-Type: application/json" \
   -d '{
-    "module_path": "/workspaces/zeropoint-agent/apps/ollama",
-    "app_id": "ollama",
+    "source": "https://github.com/zeropoint-os/ollama.git", 
+    "module_id": "ollama",
     "arch": "arm64",
     "gpu_vendor": "nvidia"
   }'
@@ -33,40 +33,21 @@ curl -X POST http://localhost:8080/apps/install \
 
 ### Manual (for testing)
 
-```bash
-cd /workspaces/zeropoint-agent/apps/ollama
+Use Run task (Shift+Alt+T)
+1. Full test - setup and apply
+2. Full test - cleanup
 
-# Initialize Terraform
-terraform init
-
-# Plan (preview changes)
-terraform plan \
-  -var app_id=ollama \
-  -var network_name=zeropoint-app-ollama \
-  -var arch=amd64 \
-  -var gpu_vendor=nvidia
-
-# Apply (create resources)
-terraform apply \
-  -var app_id=ollama \
-  -var network_name=zeropoint-app-ollama \
-  -var arch=amd64 \
-  -var gpu_vendor=nvidia
-
-# Destroy (clean up)
-terraform destroy \
-  -var app_id=ollama \
-  -var network_name=zeropoint-app-ollama
-```
+The install will be performed using Docker-in-Docker.
 
 ## Inputs
 
 | Name | Type | Description | Default |
 |------|------|-------------|---------|
-| `app_id` | string | Unique identifier for this app instance (injected by zeropoint) | `"ollama"` |
-| `network_name` | string | Pre-created Docker network name (injected by zeropoint) | (required) |
-| `arch` | string | Target architecture: amd64, arm64, etc. (injected by zeropoint) | `"amd64"` |
-| `gpu_vendor` | string | GPU vendor: nvidia, amd, intel, or empty for no GPU (injected by zeropoint) | `""` |
+| `zp_app_id` | string | Unique identifier for this app instance (injected by zeropoint) | `"ollama"` |
+| `zp_network_name` | string | Pre-created Docker network name (injected by zeropoint) | (required) |
+| `zp_arch` | string | Target architecture: amd64, arm64, etc. (injected by zeropoint) | `"amd64"` |
+| `zp_gpu_vendor` | string | GPU vendor: nvidia, amd, intel, or empty for no GPU (injected by zeropoint) | `""` |
+| `zp_module_storage` | string | Host path for persistent storage (injected by zeropoint) | (required) |
 
 ## Outputs
 
@@ -87,9 +68,9 @@ The GPU vendor is auto-detected by zeropoint and injected via the `gpu_vendor` v
 ## Network & Service Discovery
 
 - **Internal Port**: 11434 (Ollama API)
-- **Network**: Uses pre-created network provided by zeropoint via `network_name`
+- **Network**: Uses pre-created network provided by zeropoint via `zp_network_name`
 - **No Host Ports**: Service discovery via DNS only
-- **Container Name**: `${app_id}-main` (e.g., `ollama-main`)
+- **Container Name**: `${zp_module_id}-main` (e.g., `ollama-main`)
 
 ## Accessing Ollama
 
