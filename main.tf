@@ -13,7 +13,7 @@ variable "zp_module_id" {
   description = "Unique identifier for this module instance (user-defined, freeform)"
 }
 
- variable "zp_network_name" {
+variable "zp_network_name" {
   type        = string
   description = "Pre-created Docker network name for this module (managed by zeropoint)"
 }
